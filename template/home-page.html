@@ -2,7 +2,16 @@
 {% load static %}
 <title>Home</title>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" />
 
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <script src="{% static 'js/home.js' %}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/4.9.95/css/materialdesignicons.css" rel="stylesheet">
 
 </head>
 <body>
@@ -10,11 +19,325 @@
 <!-- ###### code here ##### -->
 
 <div class="container">
-    {% if messages %}
-        {% for message in messages %} <li class="text-danger"> <h4>{{message}}</h4></li> {% endfor %}
-    {% endif %}
+    <div class="row align-items-center">
+        <div class="col-lg-12">
+            <div class="show-results mt-5">
+                <div class="float-left">
+                    <h5 class="text-dark mb-0 pt-2">Showing  Results : 1-6 of 540</h5>
+                </div>
+                <div class="sort-button float-right">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item mr-3">
+                            <select class="nice-select" >
+                                <option data-display="Sort By">Sort</option>
+                                <option value="recent">Most Recent</option>
+                                <option value="Cheap">Cost Low to High</option>
+                                <option value="Expensive">Cost High to Low</option>
+                            </select>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="left-sidebar">
+                <div class="accordion" id="accordionExample">
+                    <div class="card mt-4">
+                        <a data-toggle="collapse" href="#collapseOne" class="job-list" aria-expanded="true" aria-controls="collapseOne">
+                            <div class="card-header" id="headingOne">
+                                <h6 class="mb-0 text-dark f-18">Gender Preference </h6>
+                            </div>
+                        </a>
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne">
+                            <div class="card-body p-0">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input all-select" name="gender_preference" value="male" id="customCheckAll">
+                                    <label class="custom-control-label ml-1 text-muted f-15" for="customCheckAll">Male</label>
+                                </div>
+
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input all-select" name="gender_preference" value="female" id="customCheck22">
+                                    <label class="custom-control-label ml-1 text-muted f-15" for="customCheck22">Female</label>
+                                </div>
+
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input all-select" name="gender_preference" value="both" id="customCheck23">
+                                    <label class="custom-control-label ml-1 text-muted f-15" for="customCheck23">Both</label>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-4">
+                        <a data-toggle="collapse" href="#collapsetwo" class="job-list" aria-expanded="true" aria-controls="collapsetwo">
+                            <div class="card-header" id="headingtwo">
+                                <h6 class="mb-0 text-dark f-18">Room Type</h6>
+                            </div>
+                        </a>
+                        <div id="collapsetwo" class="collapse show" aria-labelledby="headingtwo">
+                            <div class="card-body p-0">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck5">
+                                    <label class="custom-control-label ml-1 text-muted f-15" for="customCheck5">2+ Occupants</label>
+                                </div>
+
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck6">
+                                    <label class="custom-control-label ml-1 text-muted f-15" for="customCheck6">Web Designer</label>
+                                </div>
+
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck7">
+                                    <label class="custom-control-label ml-1 text-muted f-15" for="customCheck7">Banking</label>
+                                </div>
+
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck8">
+                                    <label class="custom-control-label ml-1 text-muted f-15" for="customCheck8">Digital &amp; Creative</label>
+                                </div>
+
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck9">
+                                    <label class="custom-control-label ml-1 text-muted f-15" for="customCheck9">IT Contractor</label>
+                                </div>
+
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck10">
+                                    <label class="custom-control-label ml-1 text-muted f-15" for="customCheck10">Java Developer</label>
+                                </div>
+
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck11">
+                                    <label class="custom-control-label ml-1 text-muted f-15" for="customCheck11">Civil Engineert</label>
+                                </div>
+
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck12">
+                                    <label class="custom-control-label ml-1 text-muted f-15" for="customCheck12">SEO</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-4">
+                        <a data-toggle="collapse" href="#collapsethree" class="job-list" aria-expanded="true" aria-controls="collapsethree">
+                            <div class="card-header" id="headingthree">
+                                <h6 class="mb-0 text-dark f-18">Skills</h6>
+                            </div>
+                        </a>
+                        <div id="collapsethree" class="collapse show" aria-labelledby="headingthree">
+                            <div class="card-body p-0">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck13">
+                                    <label class="custom-control-label ml-1 text-muted f-15" for="customCheck13">HTML</label>
+                                </div>
+
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck14">
+                                    <label class="custom-control-label ml-1 text-muted f-15" for="customCheck14">CSS</label>
+                                </div>
+
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck15">
+                                    <label class="custom-control-label ml-1 text-muted f-15" for="customCheck15">JavaScript</label>
+                                </div>
+
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck16">
+                                    <label class="custom-control-label ml-1 text-muted f-15" for="customCheck16">PHP</label>
+                                </div>
+
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck17">
+                                    <label class="custom-control-label ml-1 text-muted f-15" for="customCheck17">Wordpress</label>
+                                </div>
+
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck18">
+                                    <label class="custom-control-label ml-1 text-muted f-15" for="customCheck18">Photoshop</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-9">
+            <div class="candidates-listing-item" id="roomScrollArea">
+
+
+                <!-- <div class="list-grid-item mt-4 p-2">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="candidates-img float-left mr-4">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="img-fluid d-block rounded">
+                            </div>
+                            <div class="candidates-list-desc job-single-meta  pt-2">
+                                <h5 class="mb-2 f-19"><a href="#" class="text-dark">Mary Mainor</a></h5>
+                                <ul class="list-inline mb-0">
+                                    <li class="list-inline-item mr-4">
+                                        <p class="text-muted f-15 mb-0"><i class="mdi mdi-account mr-1"></i>Web Developer</p>
+                                    </li>
+
+                                    <li class="list-inline-item mr-4">
+                                        <p class="f-15 mb-0"><a href="" class="text-muted"><i class="mdi mdi-map-marker mr-1"></i>Scenic Way Atlanta.</a></p>
+                                    </li>
+
+                                    <li class="list-inline-item">
+                                        <p class="text-muted f-15 mb-0"><i class="mdi mdi-currency-usd mr-1"></i>$700 - $900/month</p>
+                                    </li>
+                                </ul>
+                                <p class="text-muted mt-1 mb-0">Skills : HTML, CSS, JavaScript, Wordpress, PHP, jQueary.</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="candidates-list-fav-btn text-right">
+                                <div class="fav-icon">
+                                    <i class="mdi mdi-heart f-20"></i>
+                                </div>
+                                <div class="candidates-listing-btn mt-4">
+                                    <a href="#" class="btn btn-outline btn-sm">View Profile</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-11 offset-lg-1">
+                            <div class="candidates-item-desc">
+                                <hr>
+                                <p class="text-muted mb-2 f-14">Aenean leo ligula porttitor eu consequat eleifend ac enim. Aliquam lorem ante, dapibus in viverra quis feugiat a tellus Phasellus viverra nulla ut metus varius laoreet Quisque rutrum Maecenas tempus tellus eget condimentum pulvinar hendrerit id.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination job-pagination justify-content-center mt-5 mb-5">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                            <i class="mdi mdi-chevron-double-left f-15"></i>
+                        </a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">
+                            <i class="mdi mdi-chevron-double-right f-15"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
 </div>
 
+
+
+<script>
+
+    async function GetImage(room_id){
+       const response = await fetch('/rooms/room-images?room_id='+room_id);
+       console.log(response)
+       const blob = await response.blob();
+       document.getElementById(room_id).src=URL.createObjectURL(blob);
+    }
+
+    $.ajax({
+        dataType: 'json',
+        url: '/rooms/rooms/',
+        type: 'GET',
+        success: (response) => {
+            response = JSON.parse(response);
+            console.log(response);
+            if(response.status == true && response.msg == 'success'){
+                // document.getElementById("roomScrollArea").innerHTML = '';
+                for(var i=0; i<response.total; i++){
+                    const result = response.rooms[i];
+                    
+                    $('#roomScrollArea').append(`
+                        <div class="col-lg-9">
+                            <div class="candidates-listing-item" id="roomScrollArea">
+
+                                <div class="list-grid-item mt-4 p-2">
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="candidates-img float-left mr-4">
+                                                <img id="`+result[0]+`" src="/media/x-default.png" alt="" class="img-fluid d-block rounded">
+                                            </div>
+                                            <div class="candidates-list-desc job-single-meta  pt-2">
+                                                <h5 class="mb-2 f-19"><a href="#" class="text-dark">`+result[2]+ ', '+ result[12]+`</a></h5>
+                                                <ul class="list-inline mb-0">
+                                                    <li class="list-inline-item mr-4">
+                                                        <p class="text-muted f-15 mb-0"><i class="mdi mdi-account mr-1"></i>Web Developer</p>
+                                                    </li>
+
+                                                    <li class="list-inline-item mr-4">
+                                                        <p class="f-15 mb-0"><a href="" class="text-muted"><i class="mdi mdi-map-marker mr-1"></i>Scenic Way Atlanta.</a></p>
+                                                    </li>
+
+                                                    <li class="list-inline-item">
+                                                        <p class="text-muted f-15 mb-0"><i class="mdi mdi-currency-usd mr-1"></i>$700 - $900/month</p>
+                                                    </li>
+                                                </ul>
+                                                <p class="text-muted mt-1 mb-0">Skills : HTML, CSS, JavaScript, Wordpress, PHP, jQueary.</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="candidates-list-fav-btn text-right">
+                                                <div class="fav-icon">
+                                                    <i class="mdi mdi-heart f-20"></i>
+                                                </div>
+                                                <div class="candidates-listing-btn mt-4">
+                                                    <a href="#" class="btn btn-outline btn-sm">View Profile</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-11 offset-lg-1">
+                                            <div class="candidates-item-desc">
+                                                <hr>
+                                                <p class="text-muted mb-2 f-14">Aenean leo ligula porttitor eu consequat eleifend ac enim. Aliquam lorem ante, dapibus in viverra quis feugiat a tellus Phasellus viverra nulla ut metus varius laoreet Quisque rutrum Maecenas tempus tellus eget condimentum pulvinar hendrerit id.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                        
+                    `);
+                    GetImage(result[0]);
+                }
+            }
+                
+        
+        }
+    });
+</script>
 
 
 <!-- ###### code here ##### -->

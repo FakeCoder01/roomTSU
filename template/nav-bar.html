@@ -1,32 +1,74 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/">RoomTSU</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          
+
+{% load static %}
+<nav class="navbar pl-10" id="navbar-deskop">
+  <ul class="">
+      <li class="nav-link-desktop nav-link-desktop-logo" title="roomTSU"><img title="roomTSU" src="/media/logo.png" alt="logo"></li>
+      <li class="nav-link-desktop nav-link-desktop-home" title="Home"><a href="/" title="Home page">Home</a></li>
+      {% if request.user.is_authenticated %}
+      <li class="nav-link-desktop nav-link-desktop-services" title="Add Room"><a href="/rooms/add/" title="Join us">Add Room</a></li>
+      <li class="nav-link-desktop nav-link-desktop-join-us" title="Chat"><a href="/chat/">Chat</a></li>
+      <li class="nav-link-desktop nav-link-desktop-contact-us" title="Response"><a href="/res/" title="Contact us">Response</a></li>
+      {% endif %}
+      <li class="nav-link-desktop nav-link-desktop-logout">
+          <button id="log_in_out">
           {% if request.user.is_authenticated %}
-            <li class="nav-item">
-              <a class="nav-link" href="/logout?utm_source=navbar">Logout</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/rooms/add?utm_source=navbar">Add room</a>
-            </li>
+            <a href="/logout">Profile</a>
           {% else %}
-            <li class="nav-item">
-              <a class="nav-link" href="/login?utm_source=navbar">Login</a>
-            </li>
+            <a href="/login">Log in</a>
           {% endif %}
-          <li class="nav-item">
-            <a class="nav-link" href="/rooms/?utm_source=navbar">Rooms</a>
-          </li>
-        </ul>
-        <form class="d-flex">
-          <input class="form-control me-2" name="q" id="q" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+          </button>
+      </li>
+  </ul>
+</nav>
+
+
+
+
+
+<nav class="navbar" id="navbar-mobile">
+  
+  <div id="logoButton">
+      <div class="mobile-logo">
+          <a href="/"><img src="/media/logo-mobile.png" alt="logo"></a>
       </div>
-    </div>
-  </nav>
+      <!--<div id="searchbar">
+              <input type="text" name="searchQuery" id="searchQuery" placeholder="Search here.." required>
+      </div>-->
+      <div class="menuButton-container" title="Craftopydia Menu" id="menuButton" style="float: right;" onclick="menuButtonToggle(this)">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+      </div>
+  </div>
+  <div id="options">
+    <ul>
+      <li class="nav-link-mobile nav-link-mobile-logo" title="roomTSU"><img title="roomTSU" src="/media/logo.png" alt="logo"></li>
+      <li class="nav-link-mobile nav-link-mobile-home" title="Home"><a href="/" title="Home page">Home</a></li>
+      <li class="nav-link-mobile nav-link-mobile-Add Room" title="Add Room"><a href="/rooms/add/" title="Join us">Add Room</a></li>
+      <li class="nav-link-mobile nav-link-mobile-Chat" title="Chat"><a href="/chat/">Chat</a></li>
+      <li class="nav-link-mobile nav-link-mobile-Response" title="Response"><a href="/res/" title="Contact us">Response</a></li>
+      <li class="nav-link-mobile nav-link-mobile-logout">
+          <button id="log_in_out">
+          {% if request.user.is_authenticated %}
+            <a href="/logout">Profile</a>
+          {% else %}
+            <a href="/login">Log in</a>
+          {% endif %}
+          </button>
+      </li>
+  </ul>
+  </div>
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+

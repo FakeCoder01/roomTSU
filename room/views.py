@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from uuid import UUID
 from core.models import *
 from .forms import AddRoomForm
-
+from .models import *
 # Create your views here.
 
 
@@ -20,7 +20,6 @@ class UUIDEncoder(json.JSONEncoder):
             return json.JSONEncoder.default(self.obj)
         except:
             return    
-
 
 
 
@@ -46,7 +45,6 @@ def getRoomImages(request):
         "status" : False,
         "msg" : "error",
     }), safe=False)
-
 
 
 
@@ -111,6 +109,8 @@ def getRooms(request):
         "msg" : "error",
     }), safe=False)
 
+
+
 @login_required(login_url='/login')
 def newAddRoom(request):
     if request.method == 'POST':
@@ -165,3 +165,69 @@ def newAddRoom(request):
         except Exception as err:
             print(err)                  
     return render(request, 'room/add-room.html')    
+
+
+
+@login_required(login_url='/login')
+def roomReqAdd(request):
+    try:
+        if 'room_id' in request.POST and room.objects.filter(room_id=request.post['quiz_id']).exists():
+            the_room = room.objects.get(room_id=request.POST['room_id'])
+            newRoomReq = RoomReq.objects.create(
+                room = the_room,
+                owner = the_room.added_by,
+                user = request.user.userprofile
+            )
+            return JsonResponse(json.dumps({
+                "status" : True,
+                "msg" : "Request sent to the poster"
+            }), safe=False)
+    except Exception as err:
+        print(err)
+    return JsonResponse(json.dumps({
+        "status" : True,
+        "msg" : "Something went wrong"
+    }), safe=False)        
+
+
+@login_required(login_url='/login')
+def addReview(request, room_id):
+    try:
+        if room.objects.filter(room_id=room_id).exists():
+            if request.method == 'POST':
+                if 'text' in request.POST and 'star' in request.POST and request.POST['text'] != '' and request.POST['star'] != '':
+                    the_room = room.objects.get(room_id=room_id)
+                    newRoomReview = room_review.objects.create(
+                        room = the_room,
+                        text = request.POST['text'],
+                        star = request.POST['star'],
+                        commenter = request.user.userprofile,
+                    )
+                    messages.success(request, "Review has been added")
+                    return redirect(f'/rooms/room?room_id={room_id}')
+                messages.error(request, "Fill all fields")     
+            return render(request, "room/add-review.html")
+        messages.error(request, "room-id did not match")   
+    except Exception as err:
+        print(err)
+        return redirect('/')
+
+
+
+@login_required(login_url='/login')
+def roomResponses(request):
+    context = list(RoomReq.objects.filter(owner=request.user.userprofile).values_list())
+    return render(request, "res.html", context)
+
+
+
+@login_required(login_url='/login')
+def ResponseDetail(request, r_id):
+    if RoomReq.objects.filter(owner=request.user.userprofile, r_id=r_id).exists():
+        context = RoomReq.objects.get(owner=request.user.userprofile, r_id=r_id)
+        return render(request, "res-details.html")
+    return redirect('res/?not=True')        
+
+
+
+

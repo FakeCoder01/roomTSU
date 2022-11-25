@@ -47,6 +47,7 @@ class room(models.Model):
 
 class room_review(models.Model):
     comment_id = models.UUIDField(default=uuid.uuid4, primary_key=True)
+    room = models.ForeignKey(room, on_delete=models.CASCADE, related_name="room_comment")
     commenter = models.ForeignKey(profile, on_delete=models.CASCADE, related_name="commenter_profile")
     text = models.TextField()
     star = models.FloatField(default=0)

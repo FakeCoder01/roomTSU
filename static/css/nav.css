@@ -1,0 +1,141 @@
+body{
+    margin: 0px;
+    padding: 0px;
+}
+.nav-link-desktop {
+    display: inline;
+    float: left;
+    list-style-type: none;
+    margin-left: 32px;
+}
+.nav-link-desktop a{
+    color: black;
+    font-size: 18px;
+    text-decoration: none;
+}
+nav-link-desktop-logo{
+    max-height: 100px;
+}
+.nav-link-desktop a:hover{
+    color: yellow;
+    border-bottom: 2px solid black;
+}
+.nav-link-mobile{
+    list-style-type: none;
+}
+.navbar{
+    background-color : #d1cdff;
+    overflow: hidden;
+    width: 100%;
+    padding: 8px;
+    top: 0;
+}
+@media only screen and (max-width: 400px) {
+  #navbar-deskop{
+    display: none;
+  }
+  #navbar-mobile{
+    display: block;
+  }
+}
+@media only screen and (max-width: 600px) {
+  #navbar-deskop{
+    display: none;
+  }
+  #navbar-mobile{
+    display: block;
+  }
+}
+@media only screen and (min-width: 601px) {
+    #navbar-mobile{
+        display: none;
+    }
+    #navbar-deskop{
+        display: block;
+    }
+}
+#options a{
+    font-family: Georgia;
+    text-decoration: none;
+    color: aqua;
+    font-size: 18px;
+    width: 400px;
+    background-color: #666057;
+    padding: 4px;
+    display: block;
+    padding-left: 16px;
+}
+.menuButton-container {
+  display: block;
+  cursor: pointer;
+}
+
+.bar1, .bar2, .bar3 {
+  width: 35px;
+  height: 5px;
+  background-color: #333;
+  margin: 6px 0;
+  transition: 0.4s;
+}
+
+.change .bar1 {
+  -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+  transform: rotate(-45deg) translate(-9px, 6px);
+}
+
+.change .bar2 {opacity: 0;}
+
+.change .bar3 {
+  -webkit-transform: rotate(45deg) translate(-8px, -8px);
+  transform: rotate(45deg) translate(-8px, -8px);
+}
+
+/*mobile-menu-options*/
+#options{
+    max-width: 250px;
+    display: none;
+}
+
+.mobile-logo, .mobile-logo img{
+    width: 50px;
+}
+#logoButton{
+   width: 100%;
+   display: block;
+   margin: auto;
+}
+#menuButton, .mobile-logo, #searchbar{
+    display: inline-block;
+}
+
+#searchQuery{
+    background-color: #F5F5F5;
+    outline: none;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    font-size: 18px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+#searchbar{
+    margin-top: -16px;
+    width: 64%;
+    margin-left: 3%;
+    margin-right: 3%;
+}
+.nav-link-desktop-logout{
+    float: right;
+    padding-right: 16px;
+}
+.nav-link-desktop-logo img{
+    width: 60%;
+}
+#log_in_out a{
+    color: white;
+}
+#log_in_out{
+    padding: 8px 10px 8px 10px;
+    background-color: #482d74a8;
+    padding: 8px 10px 8px 10px;
+}
