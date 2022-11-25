@@ -72,6 +72,22 @@ def registerPage(request):
     return render(request, 'register-page.html')           
 
 
+
+@login_required(login_url='profile/')
+def profilePage(request):
+    if request.method == 'POST':
+        try:
+            if 'dfd' in request.POST and request.POST['dfd']:
+                dfd = request.POST['dfd']
+                
+            messages.success(request, "Profile Updated")
+        except Exception as err:
+            print(err)    
+    return render(request, "profile-page.html")
+
+
+
+
 def loginPage(request):
     if request.method == 'POST':
         try:

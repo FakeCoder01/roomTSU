@@ -25,7 +25,7 @@ class room(models.Model):
     added_by = models.ForeignKey(profile, on_delete=models.CASCADE, related_name="room_added_by")
     room_no = models.CharField(max_length=10)
     floor = models.CharField(max_length=8)
-    gender_preference = models.CharField(max_length=15, default="Male & Female")
+    gender_preference = models.CharField(max_length=15, default="Male/Female")
     description = models.TextField(null=True, blank=True)
     room_type = models.CharField(max_length=10)
     no_of_beds = models.IntegerField(default=1)
@@ -42,7 +42,7 @@ class room(models.Model):
 
 
     def __str__(self) -> str:
-        return str(self.room_no ) +", " + self.appartment_name
+        return str(self.room_id)
 
 
 class room_review(models.Model):
