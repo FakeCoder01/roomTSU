@@ -88,7 +88,7 @@ def getRooms(request):
                     Q(gender_preference__icontains=query) |
                     Q(description__icontains=query) |
                     Q(room_type__icontains=query) |
-                    Q(no_of_beds_icontains=query) | 
+                    Q(no_of_beds__icontains=query) | 
                     Q(max_occupants__icontains=query) | 
                     Q(current_occupants__icontains=query) | 
                     Q(room_rent__icontains=query) | 
