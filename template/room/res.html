@@ -1,0 +1,30 @@
+{% include '../header.html' %}
+{% load static %}
+<title>Reviews</title>
+
+
+<link rel="stylesheet" href="{% static 'css/review.css' %}">
+
+</head>
+
+<body>
+    {% include '../nav-bar.html' %}
+    <!-- ###### code here ##### -->
+
+    <div class="container bootstrap snippets mt-4">
+
+        {% for n in res %}
+            <a href="/rooms/res/{{n.r_id}}/">
+                <div class="alert alert-success alert-white rounded">
+                    <div class="icon">
+                        <i class="fa fa-check"></i>
+                    </div>
+                    <strong>New!</strong> 
+                    {{n.user.full_name}} showed interest in Room {{n.room.room_no}}, {{n.room.appartment_name}}
+                </div>
+            </a>
+        {% endfor %}
+    </div>    
+
+    <!-- ###### code here ##### -->
+    {% include '../footer.html' %}

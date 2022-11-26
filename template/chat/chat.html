@@ -1,0 +1,227 @@
+{% include '../header.html' %}
+{% load static %}
+<title>Messages</title>
+
+<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+</head>
+
+<body>
+    {% include '../nav-bar.html' %}
+    <!-- ###### code here ##### -->
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="chat-window">
+                
+                    <!-- Chat Left -->
+                    <div class="chat-cont-left">
+                        <div class="chat-header">
+                            <span>Chats</span>
+                            <a href="javascript:void(0)" class="chat-compose">
+                                <i class="material-icons">control_point</i>
+                            </a>
+                        </div>
+                        <form class="chat-search">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Search">
+                            </div>
+                        </form>
+                        <div class="chat-users-list">
+                            <div class="chat-scroll">
+
+                                {% for m in message_group %}
+                                    <!-- href="javascript:void(0);" --> 
+                                    <a style="cursor: pointer;" onclick="open_chat_box('{{m.access_key}}');" id="{{m.access_key}}" class="media chatBodyAreaExpand">
+                                        <div class="media-body">
+                                            <div>
+                                                <div class="user-name">
+                                                    {% if user == m.user1 %}
+                                                        {{m.user2}}
+                                                    {% else %}
+                                                        {{m.user1}}
+                                                    {% endif %}    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+
+                                {% endfor %}
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Chat Left -->
+                
+                    <!-- Chat Right -->
+                    <div id="chat-body-area" class="chat-cont-right">
+                        
+                    </div>
+                    <!-- /Chat Right -->
+                    {% csrf_token %}
+                </div>
+            </div>
+        </div>
+        <!-- /Row -->
+
+    </div>
+
+</div>	
+
+
+<script>
+
+    function sent_sms(access_key){
+        if (document.getElementById("text-msg").value != ''){
+            text_msg = document.getElementById("text-msg").value ;
+        }
+        else return;
+        document.getElementById("text-msg").value = '';
+        $.ajax({
+            url: "/chat/add-message/",
+            type: "POST",
+            data: { 
+                'message' : text_msg,
+                'chat_room_id' : access_key,
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: function(result) {
+                result = JSON.parse(result);
+            },
+            failure: function () {
+                return false;
+            }
+        });
+    }
+
+    
+    function open_chat_box(access_key){
+
+        $.ajax({
+            url: "/chat/get-messages/",
+            type: "GET",
+            data: { 
+                'chat_room_id': access_key, 
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: function(response) {
+                response = JSON.parse(response);
+                if (response.data.length>0 && response.msg == 'success' && response.status_code == 200){
+                    document.getElementById("chat-body-area").innerHTML = `
+                        <div id="chat_div_chatbox">
+                            <div class="chat-header">
+                                <a id="back_user_list" href="javascript:void(0)" class="back-user-list">
+                                    <i class="material-icons">chevron_left</i>
+                                </a>
+                                <div class="media">
+                                    <div class="media-body">
+                                        <div class="user-name">`+response.sender + ' and ' + response.receiver+`</div>
+
+                                    </div>
+                                </div>
+                                <div class="chat-options">
+                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#voice_call">
+                                        <i class="material-icons">local_phone</i>
+                                    </a>
+                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#video_call">
+                                        <i class="material-icons">videocam</i>
+                                    </a>
+                                    <a href="javascript:void(0)">
+                                        <i class="material-icons">more_vert</i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="chat-body">
+                                <div class="chat-scroll">
+                                    <ul class="list-unstyled" id="to_be_updated_message_box"> </ul>
+                                </div>
+                            </div>
+                            <div class="chat-footer">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="btn-file btn">
+                                            <i class="fa fa-paperclip"></i>
+                                            <input type="file" name="file-msg" id="file-msg">
+                                        </div>
+                                    </div>
+                                    <input type="text" class="input-msg-send form-control" id="text-msg" placeholder="Type something">
+                                    <div class="input-group-append">
+                                        <button onclick="sent_sms('`+access_key+`');" type="button" class="btn msg-send-btn"><i class="fab fa-telegram-plane"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                    `;
+
+                    setInterval(function() {
+                        $.ajax({
+                            url: "/chat/get-messages/",
+                            type: "GET",
+                            data: { 
+                                'room': access_key, 
+                                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+                            },
+                            success: function(result) {
+                                result = JSON.parse(result);
+                                const chat_msg_area = document.getElementById("to_be_updated_message_box");
+                                chat_msg_area.innerHTML = '';
+                                var m_date = 1;
+                                for (let i = 0; i < result.data.length; i++) {
+                                    chat_msg_area.innerHTML += `
+                                        <li class="media sent">
+                                            <div class="media-body">
+                                                <strong>`+ result.data[i].sender +`</strong>
+                                                <div class="msg-box">
+                                                    <div>
+                                                        <p>`+ result.data[i].message +`</p>
+                                                        <ul class="chat-msg-info">
+                                                            <li>
+                                                                <div class="chat-time">
+                                                                    <span>`+ result.data[i].sent_at +`</span>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    `;
+                                }
+
+                                chat_msg_area.scrollTop = chat_msg_area.scrollHeight;
+                            },
+                            failure: function () {
+                                return false;
+                            }
+                        });
+                        
+                    }, 1000);
+                }
+                else{
+                    return false;
+                }
+            },
+            failure: function () {
+                return false;
+            }
+        });
+
+        
+        
+
+    }
+</script>
+
+
+
+
+    <!-- ###### code here ##### -->
+    {% include '../footer.html' %}

@@ -42,6 +42,8 @@
         </div>
     </div>
 
+    {% csrf_token %}
+
     <div class="row">
         <div class="col-lg-3">
             <div class="left-sidebar">
@@ -255,12 +257,48 @@
 <script>
 
     async function GetImage(room_id){
-       const response = await fetch('/rooms/room-images?room_id='+room_id);
-       console.log(response)
-       const blob = await response.blob();
-       document.getElementById(room_id).src=URL.createObjectURL(blob);
+
+        $.ajax({
+            dataType: 'json',
+            url: '/rooms/room-images?room_id='+room_id,
+            type: 'GET',
+            success: (response) => {
+                response = JSON.parse(response);
+                if(response.status == true && response.msg == 'success' && response.images[0][2] != ''){
+                    document.getElementById(room_id).src = '/media/' + response.images[0][2];
+                }
+                else{
+                    document.getElementById(room_id).src = '/media/x-room-d.png';
+                }
+            }
+        });
     }
 
+
+
+    function addFavRoom(room_id){
+        $.ajax({
+            url: "/rooms/req/",
+			type: "POST",
+			data: { 
+				'room_id' : room_id,
+				'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+			},
+			success: function(result) {
+				result = JSON.parse(result);
+                console.log(result);
+                if(result.status == true){
+                    alert(result.msg)
+                }
+	
+			},
+			failure: function () {
+				return false;
+			}
+        });
+    }
+
+    
     $.ajax({
         dataType: 'json',
         url: '/rooms/rooms/',
@@ -284,31 +322,31 @@
                                                 <img id="`+result[0]+`" src="/media/x-default.png" alt="" class="img-fluid d-block rounded">
                                             </div>
                                             <div class="candidates-list-desc job-single-meta  pt-2">
-                                                <h5 class="mb-2 f-19"><a href="#" class="text-dark">`+result[2]+ ', '+ result[12]+`</a></h5>
+                                                <h5 class="mb-2 f-19"><a href="/rooms/room/`+result[0]+`" class="text-dark">`+result[2]+ ', '+ result[12]+`</a></h5>
                                                 <ul class="list-inline mb-0">
                                                     <li class="list-inline-item mr-4">
-                                                        <p class="text-muted f-15 mb-0"><i class="mdi mdi-account mr-1"></i>Web Developer</p>
+                                                        <p class="text-muted f-15 mb-0"><i class="mdi mdi-account mr-1"></i>`+result[4]+`</p>
                                                     </li>
 
                                                     <li class="list-inline-item mr-4">
-                                                        <p class="f-15 mb-0"><a href="" class="text-muted"><i class="mdi mdi-map-marker mr-1"></i>Scenic Way Atlanta.</a></p>
+                                                        <p class="f-15 mb-0"><i class="mdi mdi-map-marker mr-1"></i>`+result[13]+`</p>
                                                     </li>
 
                                                     <li class="list-inline-item">
-                                                        <p class="text-muted f-15 mb-0"><i class="mdi mdi-currency-usd mr-1"></i>$700 - $900/month</p>
+                                                        <p class="text-muted f-15 mb-0"><i class="mdi mdi-currency-usd mr-1"></i> RUB ` + result[10] +`/` + result[11]+`</p>
                                                     </li>
                                                 </ul>
-                                                <p class="text-muted mt-1 mb-0">Skills : HTML, CSS, JavaScript, Wordpress, PHP, jQueary.</p>
+                                                <p class="text-muted mt-1 mb-0">Type : `+ result[6] +`
                                             </div>
                                         </div>
 
                                         <div class="col-md-3">
                                             <div class="candidates-list-fav-btn text-right">
-                                                <div class="fav-icon">
-                                                    <i class="mdi mdi-heart f-20"></i>
+                                                <div style="cursor: pointer;" class="fav-icon" >
+                                                     <i onclick="addFavRoom('`+result[0]+`');" class="mdi mdi-heart f-20"></i>
                                                 </div>
                                                 <div class="candidates-listing-btn mt-4">
-                                                    <a href="#" class="btn btn-outline btn-sm">View Profile</a>
+                                                    <a href="/rooms/room/`+result[0]+`" class="btn btn-outline btn-sm">View Room</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -318,7 +356,7 @@
                                         <div class="col-lg-11 offset-lg-1">
                                             <div class="candidates-item-desc">
                                                 <hr>
-                                                <p class="text-muted mb-2 f-14">Aenean leo ligula porttitor eu consequat eleifend ac enim. Aliquam lorem ante, dapibus in viverra quis feugiat a tellus Phasellus viverra nulla ut metus varius laoreet Quisque rutrum Maecenas tempus tellus eget condimentum pulvinar hendrerit id.</p>
+                                                <p class="text-muted mb-2 f-14">`+result[5]+` </p>
                                             </div>
                                         </div>
                                     </div>
@@ -337,6 +375,8 @@
         
         }
     });
+
+
 </script>
 
 

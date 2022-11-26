@@ -1,0 +1,72 @@
+{% include '../header.html' %}
+{% load static %}
+<title>Response Detail</title>
+
+
+
+</head>
+
+<body>
+    {% include '../nav-bar.html' %}
+    <!-- ###### code here ##### -->
+
+    <div class="container bootstrap snippets mt-4">
+
+        <section id="about-section" class="pt-5 pb-5">
+            <div class="container wrapabout">
+                <div class="red"></div>
+                <div class="row">
+                    <div class="col-lg-6 align-items-center justify-content-left d-flex mb-5 mb-lg-0">
+                        <div class="blockabout">
+                            <div class="blockabout-inner text-center text-sm-start">
+                                <div class="title-big pb-3 mb-3">
+                                    <h3>{{res.user}}</h3> 
+                                    <h6>{{res.created_at}}</h6>
+                                </div>
+                                <p class="description-p text-muted pe-0 pe-lg-0">
+                                    <dl class="">
+
+                                        <dt>User Phone</dt>
+                                        <dd>{{res.user.phone_no}}</dd>
+                    
+                                        <br />
+    
+                                        <dt>User Email</dt>
+                                        <dd>{{res.user.user.email}}</dd>
+                    
+                                        <br />
+        
+                    
+
+
+                                        <dt>Appartment Name</dt>
+                                        <dd>{{res.room.appartment_name}}</dd>
+                    
+                                        <br />
+    
+                                        <dt>Floor</dt>
+                                        <dd>{{res.room.floor}}</dd>
+                    
+                                        <br />
+        
+                                        <dt>Appartment Address</dt>
+                                        <dd>{{res.room.appartment_address}}</dd>
+                                        <br />
+    
+                                    </dl>
+                                </p>
+                      
+                           
+                            </div>
+                        </div>
+                    </div>
+
+            
+
+                </div>
+            </div>
+        </section>
+    </div>    
+
+    <!-- ###### code here ##### -->
+    {% include '../footer.html' %}

@@ -2,7 +2,12 @@
 {% load static %}
 <title>Add a New Room</title>
 
-
+<style>
+    .new-img{
+        width: 150px;
+        margin: 4px;
+    }
+</style>
 
 </head>
 
@@ -141,7 +146,7 @@
                         <div class="card mb-4">
                             <div class="card-body">
                                 <h3 class="h6">Photos</h3>
-                                <input class="form-control" accept="image/*" name="img" id="img" type="file" multiple>
+                                <input class="form-control" onchange="readURL(this);" accept="image/*" name="img" id="img" type="file" multiple>
                             </div>
                         </div>
                         <!-- Description -->
@@ -152,6 +157,16 @@
                                     rows="3"></textarea>
                             </div>
                         </div>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h3 class="h6">Uploaded</h3>
+                                <div id="imagePreview"></div>
+                            </div>
+                        </div>
+                        {% if messages %}
+                            {% for message in messages %} <li class="text-danger"> {{message}}</li> {% endfor %}
+                        {% endif %}
+                        
                     </div>
                     <!-- Title -->
                     <div class="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
@@ -168,6 +183,26 @@
     </div>
     </div>
 
+    <script>
+        function readURL(input) {
+            $('#imagePreview').html('');
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                for(i=0; i<input.files.length; i++){
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#imagePreview').append(
+                            `<img onclick="bigThis(this);" src="`+e.target.result+`" class="new-img">`
+                        );
+                    }
+                    reader.readAsDataURL(input.files[i]);
+                }
+            }
+        }
+        function bigThis(img){
+            return ;
+        }
+    </script>
 
 
     <!-- ###### code here ##### -->

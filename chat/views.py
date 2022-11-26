@@ -10,7 +10,11 @@ import json
 
 @login_required(login_url='/login')
 def charView(request):
-    context = ChatRoom.objects.filter(Q(user1=request.user.userprofile) | Q(user2=request.user.userprofile))
+    context = {
+        'message_group' : ChatRoom.objects.filter(Q(user1=request.user.userprofile) | Q(user2=request.user.userprofile)),
+        'user' : request.user.userprofile,
+    }
+
     return render(request, 'chat/chat.html', context)
 
 @login_required(login_url='/login')
@@ -69,7 +73,7 @@ def createChatRoom(request):
             user1 = request.user.userprofile,
             user2 = S_user
         )
-        return redirect(f"/chat/{newChatRoom.access_key}")  
+        return redirect(f"/chat/#{newChatRoom.access_key}")  
     return JsonResponse(json.dumps({'msg' : 'failed'}), safe=False)
 
 

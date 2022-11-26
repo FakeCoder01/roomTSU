@@ -1,0 +1,203 @@
+{% include '../header.html' %}
+{% load static %}
+<title>Room Details</title>
+
+<link rel="stylesheet" href="{% static 'css/room.css' %}">
+<link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    {% include '../nav-bar.html' %}
+    <!-- ###### code here ##### -->
+
+    <div class="container">
+        <!-- product -->
+        <div class="product-content product-wrap clearfix product-deatil">
+            <div class="row">
+                <div class="col-md-5 col-sm-12 col-xs-12">
+                    <div class="product-image">
+                        <div id="myCarousel-2" class="carousel slide">
+                            <ol class="carousel-indicators">
+                                <li data-target="#myCarousel-2" data-slide-to="0" class=""></li>
+                                <li data-target="#myCarousel-2" data-slide-to="1" class="active"></li>
+                                <li data-target="#myCarousel-2" data-slide-to="2" class=""></li>
+                            </ol>
+                            <div class="carousel-inner" id="imgScrollArea">
+                                
+                            </div>
+                            <a class="left carousel-control" href="#myCarousel-2" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span> </a>
+                            <a class="right carousel-control" href="#myCarousel-2" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span> </a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-md-6 col-md-offset-1 col-sm-12 col-xs-12">
+                    <h2 class="name">
+                        {{room.room_no}}, {{room.appartment_name}}
+                        <small class="mt-2">{{room.room_type}}</small>
+                        <a style="font-size: 14px" href="/rooms/review/{{room.room_id}}/">{{total_reviews}} total reviews</a>
+                    </h2>
+                    <hr />
+                    <h3 class="price-container">
+                        RUB {{room.room_rent}} / {{room.rent_type}}
+                    </h3>
+                    <div class="certified">
+                        <ul>
+                            <li>
+                                <a href="javascript:void(0);">Total Beds<span>{{room.no_of_beds}}</span></a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">Currently living<span>{{room.current_occupants}}</span></a>
+                            </li>
+
+                            <li>
+                                <a href="javascript:void(0);">Sharing<span>{{room.max_occupants}}</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <hr />
+                    <div class="description description-tabs">
+                        <ul id="myTab" class="nav nav-pills">
+                            <li class="active"><a href="#more-information" data-toggle="tab" class="no-margin">Description </a></li>
+                            <li class=""><a href="#specifications" data-toggle="tab">Room Details</a></li>
+                            <li class=""><a href="/rooms/review/{{room.room_id}}/" class="btn btn-success">Reviews</a></li>
+                        </ul>
+                        <div id="myTabContent" class="tab-content">
+                            <div class="tab-pane fade active in" id="more-information">
+                                <br />
+                                <strong>Description</strong>
+                                <p>
+                                    {{room.description}}
+                                </p>
+
+                                <br />
+                                <strong>Conatcts</strong>
+
+                                <dl class="">
+                                    <dt>Owner</dt>
+                                    <dd>{{room.added_by.full_name}} </dd>
+                                    <dd>{{room.added_by.phone_no}}, {{room.added_by.email}}</dd>
+                                    <br />
+                                    <dt>Manager</dt>
+                                    <dd>{{room.manager}}, </dd>
+                                    <br />
+                                </dl>    
+
+                                
+                            </div>
+                            <div class="tab-pane" id="specifications">
+                
+                                <br />
+                                <dl class="">
+                                    <dt>Appartment Name</dt>
+                                    <dd>{{room.appartment_name}}</dd>
+                
+                                    <br />
+
+                                    <dt>Floor</dt>
+                                    <dd>{{room.floor}}</dd>
+                
+                                    <br />
+    
+                                    <dt>Appartment Address</dt>
+                                    <dd>{{room.appartment_address}}</dd>
+                                    <br />
+    
+                                    <dt>Gender preference</dt>
+                                    <dd>{{room.gender_preference}}</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <button onclick="createChatRoom();" class="btn btn-success btn-lg">Send Message</button>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="btn-group pull-right">
+                                <button onclick="addFavRoom();" class="btn btn-white btn-default"><i class="fa fa-envelope"></i> Mark and Notify </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% csrf_token %}
+        <!-- end product -->
+    </div>
+    
+
+    <script>
+
+    $.ajax({
+        dataType: 'json',
+        url: '/rooms/room-images/?room_id={{room.room_id}}',
+        type: 'GET',
+        success: (response) => {
+            response = JSON.parse(response);
+            console.log(response);
+            if(response.status == true && response.msg == 'success'){
+                for(var i=0; i<response.total; i++){
+                    const result = response.images[i];
+                    
+                    $('#imgScrollArea').append(`
+                        <div class="item">
+                            <img src="/media/`+result[2]+`" class="img-responsive" alt=""/>
+                        </div>
+                    `);
+                    GetImage(result[0]);
+                }
+            }
+        }
+    });
+
+
+    function createChatRoom(){
+        $.ajax({
+            url: "/chat/chat-room/",
+            type: "POST",
+            data: { 
+                'userid' : '{{room.added_by.userid}}',
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: function(result) {
+                result = JSON.parse(result);
+                window.location.href = "/chat/"
+            },
+            failure: function () {
+                return false;
+            }
+        });
+    }
+
+
+
+
+        function addFavRoom(){
+            $.ajax({
+                url: "/rooms/req/",
+                type: "POST",
+                data: { 
+                    'room_id' : '{{room.room_id}}',
+                    'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function(result) {
+                    result = JSON.parse(result);
+                    console.log(result);
+                    if(result.status == true){
+                        alert(result.msg)
+                    }
+        
+                },
+                failure: function () {
+                    return false;
+                }
+            });
+        }
+    </script>
+
+    <!-- ###### code here ##### -->
+    {% include '../footer.html' %}

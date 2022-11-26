@@ -53,7 +53,7 @@ class room_review(models.Model):
     star = models.FloatField(default=0)
 
     def __str__(self) -> str:
-        return self.comment_id
+        return str(self.comment_id)
 
 
 
@@ -63,4 +63,4 @@ class room_image(models.Model):
     catagory = models.CharField(max_length=16, null=True, blank=True)
 
     def __str__(self) -> str:
-        return self.room
+        return str(self.id)

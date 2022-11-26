@@ -73,6 +73,34 @@ def roomDeatils(request):
         "msg" : "error",
     }), safe=False)
 
+@login_required(login_url='/login')
+def RoomPage(request, room_id):
+    try:
+        if room.objects.filter(room_id=room_id).exists():
+            context = {
+                'room' : room.objects.get(room_id=room_id)
+            }
+            return render(request, 'room/room.html', context)
+        return redirect('/?msg=id-mismatch')
+    except Exception as err:
+        print(err)
+    return redirect('/?=yy')            
+
+
+@login_required(login_url='/login')
+def ReviewPage(request, room_id):
+    try:
+        if room.objects.filter(room_id=room_id).exists():
+            the_room = room.objects.get(room_id=room_id)
+            context = {
+                'review' : room_review.objects.filter(room=the_room),
+                'room_id' : room_id,
+            }
+            return render(request, 'room/review.html', context)
+        return redirect('/?msg=id-mismatch')
+    except Exception as err:
+        print(err)
+    return redirect('/')     
 
 
 def getRooms(request):
@@ -171,7 +199,7 @@ def newAddRoom(request):
 @login_required(login_url='/login')
 def roomReqAdd(request):
     try:
-        if 'room_id' in request.POST and room.objects.filter(room_id=request.post['quiz_id']).exists():
+        if 'room_id' in request.POST and room.objects.filter(room_id=request.POST['room_id']).exists():
             the_room = room.objects.get(room_id=request.POST['room_id'])
             newRoomReq = RoomReq.objects.create(
                 room = the_room,
@@ -194,9 +222,9 @@ def roomReqAdd(request):
 def addReview(request, room_id):
     try:
         if room.objects.filter(room_id=room_id).exists():
+            the_room = room.objects.get(room_id=room_id)
             if request.method == 'POST':
                 if 'text' in request.POST and 'star' in request.POST and request.POST['text'] != '' and request.POST['star'] != '':
-                    the_room = room.objects.get(room_id=room_id)
                     newRoomReview = room_review.objects.create(
                         room = the_room,
                         text = request.POST['text'],
@@ -204,28 +232,35 @@ def addReview(request, room_id):
                         commenter = request.user.userprofile,
                     )
                     messages.success(request, "Review has been added")
-                    return redirect(f'/rooms/room?room_id={room_id}')
+                    return redirect(f'/rooms/review/{room_id}/')
                 messages.error(request, "Fill all fields")     
-            return render(request, "room/add-review.html")
+            context = {
+                'review' : room_review.objects.filter(room=the_room),
+            }    
+            return render(request, "room/review.html", context)
         messages.error(request, "room-id did not match")   
     except Exception as err:
         print(err)
-        return redirect('/')
+        return redirect('/?e')
 
 
 
 @login_required(login_url='/login')
 def roomResponses(request):
-    context = list(RoomReq.objects.filter(owner=request.user.userprofile).values_list())
-    return render(request, "res.html", context)
+    context = {
+        'res' : RoomReq.objects.filter(owner=request.user.userprofile)
+    }
+    return render(request, "room/res.html", context)
 
 
 
 @login_required(login_url='/login')
 def ResponseDetail(request, r_id):
     if RoomReq.objects.filter(owner=request.user.userprofile, r_id=r_id).exists():
-        context = RoomReq.objects.get(owner=request.user.userprofile, r_id=r_id)
-        return render(request, "res-details.html")
+        context = {
+            'res' : RoomReq.objects.get(owner=request.user.userprofile, r_id=r_id)
+        }
+        return render(request, "room/res-details.html", context)
     return redirect('res/?not=True')        
 
 

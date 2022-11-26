@@ -7,7 +7,7 @@ from .forms import RegisterAccountForm, ProfileCreationForm
 # Create your views here.
 
 
-@login_required(login_url='/login')
+# @login_required(login_url='/login')
 def homePage(request):
     return render(request, 'home-page.html')
 

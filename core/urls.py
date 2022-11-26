@@ -9,5 +9,4 @@ urlpatterns = [
     path('new/profile/', views.newProfilePage, name="newProfilePage"),
     path('logout/', views.logoutPage, name="logoutPage"),
 
-    path('rooms/', include('room.urls'), name="rooms"),
 ]
