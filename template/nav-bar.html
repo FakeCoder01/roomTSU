@@ -12,7 +12,7 @@
       <li class="nav-link-desktop nav-link-desktop-logout">
           <button id="log_in_out">
           {% if request.user.is_authenticated %}
-            <a href="/logout">Profile</a>
+            <a href="/logout">Log out</a>
           {% else %}
             <a href="/login">Log in</a>
           {% endif %}
