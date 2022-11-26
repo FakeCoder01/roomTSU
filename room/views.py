@@ -188,7 +188,7 @@ def newAddRoom(request):
                         img_upload.save()
                 new_room.save()
                 messages.success(request, "Room added")
-                return redirect(f'/rooms/room?room=True&room_id={new_room.room_id}')
+                return redirect(f'/rooms/room/{new_room.room_id}/')
             messages.error(request, "Fill all fields")
         except Exception as err:
             print(err)                  
